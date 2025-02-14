@@ -1,0 +1,11 @@
+services:
+  check24-app:
+    container_name: check24-app
+    build:
+      context: .
+      dockerfile: deployment/docker/php/Dockerfile
+    volumes:
+      - ./app:/var/www/html
+
+networks:
+  symfony:
