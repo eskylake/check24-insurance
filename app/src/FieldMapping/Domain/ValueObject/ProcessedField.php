@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\FieldMapping\Domain\ValueObject;
 
-class ProcessedField
+final class ProcessedField
 {
     private array $fieldDefs;
 

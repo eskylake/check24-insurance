@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\FieldMapping\Application\Service;
 
 use DateTime;
-use App\FieldMapping\Domain\ValueObject\FieldDefinition;
+use App\FieldMapping\Domain\Aggregate\FieldDefinition;
 use App\FieldMapping\Domain\Service\FieldStaticServiceInterface;
 
 class FieldStaticService implements FieldStaticServiceInterface

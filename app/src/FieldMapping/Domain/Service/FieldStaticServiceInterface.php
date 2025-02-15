@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\FieldMapping\Domain\Service;
 
-use App\FieldMapping\Domain\ValueObject\FieldDefinition;
+use App\FieldMapping\Domain\Aggregate\FieldDefinition;
 
 interface FieldStaticServiceInterface
 {

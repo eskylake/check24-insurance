@@ -4,12 +4,10 @@ declare(strict_types=1);
 
 namespace App\FieldMapping\Application\Service;
 
-use App\FieldMapping\Domain\Service\{
-    FieldValidatorServiceInterface,
-    FieldMapperServiceInterface,
-    FieldMappingServiceInterface
-};
 use App\FieldMapping\Domain\ValueObject\ProcessedField;
+use App\FieldMapping\Domain\Service\{FieldMapperServiceInterface,
+    FieldMappingServiceInterface,
+    FieldValidatorServiceInterface};
 
 class FieldMappingService implements FieldMappingServiceInterface
 {

@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\FieldMapping\Domain\ValueObject;
+namespace App\FieldMapping\Domain\Aggregate;
 
-class FieldDefinition
+final class FieldDefinition
 {
     private string $field;
     private string $mapsTo;

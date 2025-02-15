@@ -6,7 +6,7 @@ namespace App\FieldMapping\Application\Service;
 
 use DateTime;
 use App\FieldMapping\Domain\Exception\FieldValidationException;
-use App\FieldMapping\Domain\ValueObject\FieldDefinition;
+use App\FieldMapping\Domain\Aggregate\FieldDefinition;
 use App\FieldMapping\Domain\Service\FieldStaticServiceInterface;
 use App\FieldMapping\Domain\Service\FieldValidatorServiceInterface;
 

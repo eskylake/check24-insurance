@@ -6,7 +6,7 @@ namespace App\FieldMapping\Application\Service;
 
 use App\FieldMapping\Domain\Exception\FieldMapperException;
 use App\FieldMapping\Domain\Service\FieldMapperServiceInterface;
-use App\FieldMapping\Domain\ValueObject\FieldDefinition;
+use App\FieldMapping\Domain\Aggregate\FieldDefinition;
 use App\FieldMapping\Domain\Service\FieldStaticServiceInterface;
 
 class FieldMapperService implements FieldMapperServiceInterface
