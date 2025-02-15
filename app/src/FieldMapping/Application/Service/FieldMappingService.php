@@ -9,6 +9,7 @@ use App\FieldMapping\Domain\Service\{
     FieldMapperServiceInterface,
     FieldMappingServiceInterface
 };
+use App\FieldMapping\Domain\ValueObject\ProcessedField;
 
 class FieldMappingService implements FieldMappingServiceInterface
 {
@@ -19,11 +20,13 @@ class FieldMappingService implements FieldMappingServiceInterface
     {
     }
 
-    public function processFields(array $inputs, array $mappings): array
+    public function processFields(array $inputs, array $mappings): ProcessedField
     {
         $mappingFieldDefs = $mappings['field_definitions'];
         $fieldDefs = $this->validator->validate($inputs, $mappingFieldDefs);
 
-        return $this->mapper->map($inputs, $fieldDefs);
+        $mappedData = $this->mapper->map($inputs, $fieldDefs);
+
+        return new ProcessedField($fieldDefs, $mappedData);
     }
 }

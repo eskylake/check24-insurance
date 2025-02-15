@@ -13,6 +13,7 @@ class FieldDefinition
     private ?array $values;
     private array $validation;
     private mixed $static;
+    private array $xmlPaths;
 
     public function __construct(
         string $field,
@@ -22,6 +23,7 @@ class FieldDefinition
         ?array $values,
         array $validation,
         mixed $static,
+        array $xmlPaths,
     ) {
         $this->field = $field;
         $this->mapsTo = $mapsTo;
@@ -30,6 +32,7 @@ class FieldDefinition
         $this->values = $values;
         $this->validation = $validation;
         $this->static = $static;
+        $this->xmlPaths = $xmlPaths;
     }
 
     public function getField(): string
@@ -65,5 +68,10 @@ class FieldDefinition
     public function getStatic(): mixed
     {
         return $this->static;
+    }
+
+    public function getXMLPaths(): array
+    {
+        return $this->xmlPaths;
     }
 }

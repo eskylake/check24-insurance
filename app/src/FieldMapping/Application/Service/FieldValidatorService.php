@@ -30,6 +30,7 @@ class FieldValidatorService implements FieldValidatorServiceInterface
                 $definition['values'] ?? null,
                 $definition['validation'] ?? [],
                 $definition['static'] ?? null,
+                $definition['xml_path'],
             );
 
             if (!isset($data[$fieldName]) && $fieldDef->isRequired()) {

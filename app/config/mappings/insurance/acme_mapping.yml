@@ -22,6 +22,8 @@ field_definitions:
   holder:
     field: "holder"
     maps_to: "CondPpalEsTomador"
+    xml_path:
+      - "Datos/DatosGenerales"
     required: true
     description: "Indicates if the main driver is also the policy holder"
     values:
@@ -34,6 +36,8 @@ field_definitions:
   occasionalDriver:
     field: "occasionalDriver"
     maps_to: "ConductorUnico"
+    xml_path:
+      - "Datos/DatosGenerales"
     required: true
     description: "Indicates if there is only one driver"
     values:
@@ -46,6 +50,8 @@ field_definitions:
   prevInsurance_years:
     field: "prevInsurance_years"
     maps_to: "AnosSegAnte"
+    xml_path:
+      - "Datos/DatosGenerales"
     required: true
     description: "Number of years with previous insurance"
     validation:
@@ -56,6 +62,9 @@ field_definitions:
   prevInsurance_exists:
     field: "prevInsurance_exists"
     maps_to: "SeguroEnVigor"
+    xml_path:
+      - "Datos/DatosGenerales"
+      - "Datos/DatosAseguradora"
     required: true
     description: "Indicate if there is a previous insurance, and the previous insurance is still valid"
     values:
@@ -69,6 +78,8 @@ field_definitions:
     field: ""
     static: "now"
     maps_to: "FecCot"
+    xml_path:
+      - "Datos/DatosGenerales"
     description: "Current date as ISO"
     validation:
       type: "date"

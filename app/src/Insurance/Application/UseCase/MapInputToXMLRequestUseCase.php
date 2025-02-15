@@ -15,8 +15,8 @@ final class MapInputToXMLRequestUseCase implements MapInputToXMLRequestUseCaseIn
 
     public function execute(array $inputs, array $mappings): array
     {
-        $mappedData = $this->fieldMappingService->processFields($inputs, $mappings);
+        $processedFields = $this->fieldMappingService->processFields($inputs, $mappings);
 
-        dd($mappedData);
+        dd($processedFields);
     }
 }
