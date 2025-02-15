@@ -4,12 +4,19 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
+    app.acme_mapping_file: '%env(APP_INSURANCE_ACME_MAPPING_FILE)%'
+    app.acme_customer_input_file: '%env(APP_INSURANCE_ACME_SAMPLE_INPUT_FILE)%'
 
 services:
     # default configuration for services in *this* file
     _defaults:
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+        bind:
+            App\Shared\Domain\MappingProvider\MappingProviderInterface: '@App\Shared\Infrastructure\MappingProvider\YamlMappingProvider'
+            App\Shared\Domain\InputParser\InputParserInterface: '@App\Shared\Infrastructure\InputParser\JsonInputParser'
+            App\Insurance\Domain\Command\CreateInsuranceRequestCommandInterface: '@App\Insurance\Application\Command\CreateInsuranceRequestCommand'
+            App\Insurance\Domain\UseCase\MapInputToXMLRequestUseCaseInterface: '@App\Insurance\Application\UseCase\MapInputToXMLRequestUseCase'
 
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
@@ -20,8 +27,8 @@ services:
             - '../src/Entity/'
             - '../src/Kernel.php'
 
-    App\Insurance\Application\Command\:
-        resource: '../src/Insurance/Application/Command/'
+    App\Insurance\Presentation\CLI\:
+        resource: '../src/Insurance/Presentation/CLI/'
         tags: [ 'console.command' ]
 
     # add more service definitions when explicit configuration is needed
