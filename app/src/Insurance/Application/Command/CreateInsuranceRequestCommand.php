@@ -6,6 +6,7 @@ namespace App\Insurance\Application\Command;
 
 use App\Shared\Domain\InputParser\InputParserInterface;
 use App\Shared\Domain\MappingProvider\MappingProviderInterface;
+use App\FieldMapping\Domain\Service\FieldMappingServiceInterface;
 use App\Insurance\Domain\UseCase\MapInputToXMLRequestUseCaseInterface;
 use App\Insurance\Domain\Command\CreateInsuranceRequestCommandInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
@@ -15,9 +16,9 @@ class CreateInsuranceRequestCommand implements CreateInsuranceRequestCommandInte
     private string $mappingPath;
 
     public function __construct(
-        private ParameterBagInterface $params,
-        private InputParserInterface $inputParser,
-        private MappingProviderInterface $mappingProvider,
+        private ParameterBagInterface                $params,
+        private InputParserInterface                 $inputParser,
+        private MappingProviderInterface             $mappingProvider,
         private MapInputToXMLRequestUseCaseInterface $mapInputToXMLRequestUseCase,
     )
     {

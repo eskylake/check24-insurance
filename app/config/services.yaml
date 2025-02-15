@@ -13,8 +13,15 @@ services:
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
         bind:
+            # Shared
             App\Shared\Domain\MappingProvider\MappingProviderInterface: '@App\Shared\Infrastructure\MappingProvider\YamlMappingProvider'
             App\Shared\Domain\InputParser\InputParserInterface: '@App\Shared\Infrastructure\InputParser\JsonInputParser'
+            #FieldMapping
+            App\FieldMapping\Domain\Service\FieldMapperServiceInterface: '@App\FieldMapping\Application\Service\FieldMapperService'
+            App\FieldMapping\Domain\Service\FieldValidatorServiceInterface: '@App\FieldMapping\Application\Service\FieldValidatorService'
+            App\FieldMapping\Domain\Service\FieldStaticServiceInterface: '@App\FieldMapping\Application\Service\FieldStaticService'
+            App\FieldMapping\Domain\Service\FieldMappingServiceInterface: '@App\FieldMapping\Application\Service\FieldMappingService'
+            # Insurance
             App\Insurance\Domain\Command\CreateInsuranceRequestCommandInterface: '@App\Insurance\Application\Command\CreateInsuranceRequestCommand'
             App\Insurance\Domain\UseCase\MapInputToXMLRequestUseCaseInterface: '@App\Insurance\Application\UseCase\MapInputToXMLRequestUseCase'
 
@@ -30,6 +37,12 @@ services:
     App\Insurance\Presentation\CLI\:
         resource: '../src/Insurance/Presentation/CLI/'
         tags: [ 'console.command' ]
+
+    App\FieldMapping\:
+        resource: '../src/FieldMapping/'
+        exclude:
+            - '../src/FieldMapping/Domain/Exception/'
+            - '../src/FieldMapping/Domain/ValueObject/'
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
