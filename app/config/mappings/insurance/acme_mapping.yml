@@ -1,0 +1,74 @@
+description: |
+  This file maps customer input fields to ACME provider fields.
+  
+  How to read this file:
+  - Left side (before colon): Our customer field name
+  - Right side (after colon): ACME provider field name
+  
+  For fields with mapping_rules:
+  - Left side: Value we receive from customer
+  - Right side: Value ACME provider expects
+  
+  Example:
+  If customer data has "holder: CONDUCTOR_PRINCIPAL",
+  it will be sent to ACME as "CondPpalEsTomador: S"
+  
+  Common values:
+  - SI/NO in customer data becomes S/N in provider request
+  - Dates are automatically formatted to provider's format
+  - Numbers are sent as-is unless specified otherwise
+
+field_definitions:
+  holder:
+    field: "holder"
+    maps_to: "CondPpalEsTomador"
+    required: true
+    description: "Indicates if the main driver is also the policy holder"
+    values:
+      CONDUCTOR_PRINCIPAL: "S"
+      TOMADOR: "N"
+    validation:
+      type: "string"
+      allowed_values: ["CONDUCTOR_PRINCIPAL", "TOMADOR"]
+
+  occasionalDriver:
+    field: "occasionalDriver"
+    maps_to: "ConductorUnico"
+    required: true
+    description: "Indicates if there is only one driver"
+    values:
+      NO: "S"
+      SI: "N"
+    validation:
+      type: "string"
+      allowed_values: ["SI", "NO"]
+
+  prevInsurance_years:
+    field: "prevInsurance_years"
+    maps_to: "AnosSegAnte"
+    required: true
+    description: "Number of years with previous insurance"
+    validation:
+      type: "integer"
+      min: 0
+      max: 99
+
+  prevInsurance_exists:
+    field: "prevInsurance_exists"
+    maps_to: "SeguroEnVigor"
+    required: true
+    description: "Indicate if there is a previous insurance, and the previous insurance is still valid"
+    values:
+      NO: "S"
+      SI: "N"
+    validation:
+      type: "string"
+      allowed_values: ["SI", "NO"]
+
+  current_date:
+    field: "current_date"
+    maps_to: "FecCot"
+    description: "Current date as ISO"
+    validation:
+      type: "date"
+      format: "Y-m-d"

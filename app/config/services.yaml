@@ -20,8 +20,8 @@ services:
             - '../src/Entity/'
             - '../src/Kernel.php'
 
-    App\Insurance\Presentation\CLI\:
-        resource: '../src/Insurance/Presentation/CLI/'
+    App\Insurance\Application\Command\:
+        resource: '../src/Insurance/Application/Command/'
         tags: [ 'console.command' ]
 
     # add more service definitions when explicit configuration is needed
