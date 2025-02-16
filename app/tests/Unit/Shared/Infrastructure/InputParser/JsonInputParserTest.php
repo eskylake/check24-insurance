@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\Unit\Shared\Infrastructure\InputParser;
 
-use App\Tests\Unit\TestCase;
 use JsonException;
+use App\Tests\Unit\TestCase;
 use App\Shared\Infrastructure\InputParser\JsonInputParser;
 use App\Shared\Domain\Exception\{
     InputFileNotFoundException,
