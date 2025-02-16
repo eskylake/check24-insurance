@@ -18,7 +18,7 @@ description: |
   - Dates are automatically formatted to provider's format
   - Numbers are sent as-is unless specified otherwise
 
-xml_root: "TarificacionThirdPartyRequest"
+root: "TarificacionThirdPartyRequest"
 
 field_definitions:
   holder:

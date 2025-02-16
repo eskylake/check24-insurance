@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace App\Insurance\Application\UseCase;
 
-use Symfony\Component\Serializer\SerializerInterface;
+use App\Insurance\Domain\ValueObject\Mapping;
+use App\Insurance\Domain\ValueObject\MappedData;
 use App\Insurance\Domain\Service\ComputedFieldServiceInterface;
+use App\Insurance\Domain\Service\RequestBuilderServiceInterface;
 use App\FieldMapping\Domain\Service\FieldMappingServiceInterface;
 use App\FieldMapping\Domain\Service\XmlStructureBuilderServiceInterface;
 use App\Insurance\Domain\UseCase\MapInputToXMLRequestUseCaseInterface;
@@ -13,33 +15,26 @@ use App\Insurance\Domain\UseCase\MapInputToXMLRequestUseCaseInterface;
 final class MapInputToXMLRequestUseCase implements MapInputToXMLRequestUseCaseInterface
 {
     public function __construct(
-        private FieldMappingServiceInterface $fieldMappingService,
-        private ComputedFieldServiceInterface $computedFieldService,
+        private FieldMappingServiceInterface        $fieldMappingService,
+        private ComputedFieldServiceInterface       $computedFieldService,
         private XmlStructureBuilderServiceInterface $xmlStructureBuilderService,
-        private SerializerInterface $serializer,
+        private RequestBuilderServiceInterface $requestBuilderService,
     )
     {
     }
 
-    public function execute(array $inputs, array $mappings): array
+    public function execute(array $inputs, array $mappings): string
     {
-        $processedFields = $this->fieldMappingService->processFields($inputs, $mappings);
-        $comptedData = [];
+        $mapping = Mapping::fromArray($mappings);
 
-        if ($processedFields->getMappedData()->getComputed()) {
-            $comptedData = $this->computedFieldService->compute($processedFields->getMappedData()->getComputed(), $inputs);
-        }
+        $processedFields = $this->fieldMappingService->processFields($inputs, $mapping->getFieldDefinitions());
+        $computedData = $processedFields->getMappedData()->getComputed() ?
+            $this->computedFieldService->compute($processedFields->getMappedData()->getComputed(), $inputs) :
+            [];
 
+        $mappedData = new MappedData($processedFields->getMappedData()->getMapped(), $computedData);
+        $structure = $this->xmlStructureBuilderService->buildNestedArray($mappedData->toArray(), $processedFields->getFieldDefs());
 
-        $mappedData = [...$processedFields->getMappedData()->getMapped(), ...$comptedData];
-        $structure = $this->xmlStructureBuilderService->buildNestedArray($mappedData, $processedFields->getFieldDefs());
-
-        $a = $this->serializer->serialize($structure, 'xml', [
-            'xml_root_node_name' => 'TarificacionThirdPartyRequest',
-            'xml_encoding' => 'UTF-8',
-            'remove_empty_tags' => true,
-        ]);
-
-        dd($a);
+        return $this->requestBuilderService->buildRequest($mapping, $structure);
     }
 }

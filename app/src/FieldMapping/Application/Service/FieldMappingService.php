@@ -5,10 +5,11 @@ declare(strict_types=1);
 namespace App\FieldMapping\Application\Service;
 
 use App\FieldMapping\Domain\DataObject\ProcessedField;
-use App\FieldMapping\Domain\Exception\FieldDefinitionException;
-use App\FieldMapping\Domain\Service\{FieldMapperServiceInterface,
+use App\FieldMapping\Domain\Service\{
+    FieldMapperServiceInterface,
     FieldMappingServiceInterface,
-    FieldValidatorServiceInterface};
+    FieldValidatorServiceInterface
+};
 
 class FieldMappingService implements FieldMappingServiceInterface
 {
@@ -19,11 +20,9 @@ class FieldMappingService implements FieldMappingServiceInterface
     {
     }
 
-    public function processFields(array $inputs, array $mappings): ProcessedField
+    public function processFields(array $inputs, array $fieldDefinitions): ProcessedField
     {
-        $mappingFieldDefs = $mappings['field_definitions'] ?? throw new FieldDefinitionException();
-        $fieldDefs = $this->validator->validate($inputs, $mappingFieldDefs);
-
+        $fieldDefs = $this->validator->validate($inputs, $fieldDefinitions);
         $mappedData = $this->mapper->map($inputs, $fieldDefs);
 
         return new ProcessedField($fieldDefs, $mappedData);

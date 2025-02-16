@@ -16,6 +16,7 @@ services:
             # Shared
             App\Shared\Domain\MappingProvider\MappingProviderInterface: '@App\Shared\Infrastructure\MappingProvider\YamlMappingProvider'
             App\Shared\Domain\InputParser\InputParserInterface: '@App\Shared\Infrastructure\InputParser\JsonInputParser'
+            App\Shared\Domain\Serializer\XmlSerializerInterface: '@App\Shared\Infrastructure\Serializer\XmlSerializer'
             #FieldMapping
             App\FieldMapping\Domain\Service\FieldMapperServiceInterface: '@App\FieldMapping\Application\Service\FieldMapperService'
             App\FieldMapping\Domain\Service\FieldValidatorServiceInterface: '@App\FieldMapping\Application\Service\FieldValidatorService'
@@ -25,6 +26,7 @@ services:
             # Insurance
             App\Insurance\Domain\Command\CreateInsuranceRequestCommandInterface: '@App\Insurance\Application\Command\CreateInsuranceRequestCommand'
             App\Insurance\Domain\Service\ComputedFieldServiceInterface: '@App\Insurance\Application\Service\ComputedFieldService'
+            App\Insurance\Domain\Service\RequestBuilderServiceInterface: '@App\Insurance\Application\Service\RequestBuilderService'
             App\Insurance\Domain\UseCase\MapInputToXMLRequestUseCaseInterface: '@App\Insurance\Application\UseCase\MapInputToXMLRequestUseCase'
 
     serializer.encoder.xml:

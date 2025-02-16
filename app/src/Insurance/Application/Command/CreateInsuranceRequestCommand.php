@@ -6,7 +6,6 @@ namespace App\Insurance\Application\Command;
 
 use App\Shared\Domain\InputParser\InputParserInterface;
 use App\Shared\Domain\MappingProvider\MappingProviderInterface;
-use App\FieldMapping\Domain\Service\FieldMappingServiceInterface;
 use App\Insurance\Domain\UseCase\MapInputToXMLRequestUseCaseInterface;
 use App\Insurance\Domain\Command\CreateInsuranceRequestCommandInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
@@ -25,7 +24,7 @@ class CreateInsuranceRequestCommand implements CreateInsuranceRequestCommandInte
         $this->mappingPath = $this->params->get('app.acme_mapping_file');
     }
 
-    public function execute(string $inputPath): array
+    public function execute(string $inputPath): string
     {
         $inputs = $this->inputParser->parse($inputPath);
         $mappings = $this->mappingProvider->getMappings($this->mappingPath);

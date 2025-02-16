@@ -6,5 +6,5 @@ namespace App\Insurance\Domain\Command;
 
 interface CreateInsuranceRequestCommandInterface
 {
-    public function execute(string $inputPath): array;
+    public function execute(string $inputPath): string;
 }

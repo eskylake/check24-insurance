@@ -8,5 +8,5 @@ use App\FieldMapping\Domain\DataObject\ProcessedField;
 
 interface FieldMappingServiceInterface
 {
-    public function processFields(array $inputs, array $mappings): ProcessedField;
+    public function processFields(array $inputs, array $fieldDefinitions): ProcessedField;
 }

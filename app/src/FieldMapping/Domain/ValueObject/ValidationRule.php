@@ -6,11 +6,17 @@ namespace App\FieldMapping\Domain\ValueObject;
 
 final class ValidationRule
 {
+    private string $type;
+
+    private array $constraints;
+
     public function __construct(
-        private string $type,
-        private array  $constraints = [],
+        string $type,
+        array  $constraints = [],
     )
     {
+        $this->type = $type;
+        $this->constraints = $constraints;
     }
 
     public static function fromArray(array $validation): self

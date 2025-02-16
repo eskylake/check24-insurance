@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\FieldMapping\Domain\Exception;
+namespace App\Insurance\Domain\Exception;
 
 use DomainException;
 
