@@ -31,7 +31,7 @@ class FieldValidatorService implements FieldValidatorServiceInterface
      * Constructs a new FieldValidatorService instance.
      *
      * @param FieldStaticServiceInterface $fieldStaticService Service for handling static field values
-     * @param ValidatorFactory            $validatorFactory    Factory for creating field validators
+     * @param ValidatorFactory            $validatorFactory   Factory for creating field validators
      */
     public function __construct(
         private FieldStaticServiceInterface $fieldStaticService,
@@ -49,10 +49,10 @@ class FieldValidatorService implements FieldValidatorServiceInterface
      * @param array<string, array> $fieldDefinitions Array of field definition configurations where keys
      *                                               are field names and values are definition arrays
      *
+     * @return array<FieldDefinition> Array of validated field definitions
+     *
      * @throws FieldValidationException When validation errors occur, containing an array of
      *                                 error messages keyed by field name
-     *
-     * @return array<FieldDefinition> Array of validated field definitions
      *
      * @example
      * Input:
