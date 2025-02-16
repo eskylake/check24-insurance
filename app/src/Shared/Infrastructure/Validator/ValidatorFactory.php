@@ -7,7 +7,7 @@ namespace App\Shared\Infrastructure\Validator;
 use InvalidArgumentException;
 use App\Shared\Domain\Validator\ValidatorInterface;
 
-final class ValidatorFactory
+class ValidatorFactory
 {
     private array $validators;
 
