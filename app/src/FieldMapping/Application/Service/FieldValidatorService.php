@@ -8,7 +8,7 @@ use App\FieldMapping\Domain\ValueObject\XmlPath;
 use App\Shared\Domain\DataObject\ValidationResult;
 use App\FieldMapping\Domain\ValueObject\ValidationRule;
 use App\FieldMapping\Domain\ValueObject\FieldDefinition;
-use App\Shared\Infrastructure\Validator\ValidatorFactory;
+use App\Shared\Application\Service\Validator\ValidatorFactory;
 use App\FieldMapping\Domain\Exception\FieldValidationException;
 use App\FieldMapping\Domain\Service\FieldStaticServiceInterface;
 use App\FieldMapping\Domain\Service\FieldValidatorServiceInterface;

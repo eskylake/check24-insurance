@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace App\Tests\Unit\FieldMapping\Application\Service;
 
 use App\Tests\Unit\TestCase;
-use App\FieldMapping\Application\Service\FieldValidatorService;
-use App\FieldMapping\Domain\ValueObject\{XmlPath, ValidationRule, FieldDefinition};
-use App\FieldMapping\Domain\Exception\FieldValidationException;
-use App\FieldMapping\Domain\Service\FieldStaticServiceInterface;
+use App\FieldMapping\Domain\ValueObject\{FieldDefinition};
 use App\Shared\Domain\DataObject\ValidationResult;
 use App\Shared\Domain\Validator\ValidatorInterface;
-use App\Shared\Infrastructure\Validator\ValidatorFactory;
+use App\Shared\Application\Service\Validator\ValidatorFactory;
+use App\FieldMapping\Domain\Exception\FieldValidationException;
+use App\FieldMapping\Application\Service\FieldValidatorService;
+use App\FieldMapping\Domain\Service\FieldStaticServiceInterface;
 
 class FieldValidatorServiceTest extends TestCase
 {

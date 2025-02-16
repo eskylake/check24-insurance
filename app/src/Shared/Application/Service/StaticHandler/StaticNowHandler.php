@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Shared\Infrastructure\StaticHandler;
+namespace App\Shared\Application\Service\StaticHandler;
 
 use DateTimeImmutable;
 use App\Shared\Domain\StaticHandler\StaticHandlerInterface;

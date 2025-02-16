@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Shared\Infrastructure\Validator;
+namespace App\Shared\Application\Service\Validator;
 
 use DateTime;
 use App\Shared\Domain\DataObject\ValidationResult;
