@@ -1,0 +1,12 @@
+services:
+  check24-docs:
+    container_name: check24-docs
+    build:
+      context: .
+      dockerfile: deployment/docker/docs/Dockerfile
+    working_dir: /docs
+    volumes:
+      - ${PWD}/docs:/docs
+    ports:
+      - "3000:3000"
+    command: docsify serve .

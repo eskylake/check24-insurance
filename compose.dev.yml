@@ -6,7 +6,7 @@ services:
       dockerfile: deployment/docker/php/Dockerfile
       target: dev
     volumes:
-      - ./app:/var/www/html
+      - ${PWD}/app:/var/www/html
     networks:
       - check24-backend
 

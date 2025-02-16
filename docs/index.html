@@ -1,0 +1,39 @@
+<!-- docs/index.html -->
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+        <meta name="viewport" content="width=device-width,initial-scale=1"/>
+        <meta charset="UTF-8"/>
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify@4/themes/vue.css"/>
+        <link rel="stylesheet" href="//unpkg.com/@fortawesome/fontawesome-free/css/fontawesome.css"/>
+        <link rel="stylesheet" href="//unpkg.com/@fortawesome/fontawesome-free/css/brands.css"/>
+        <link rel="stylesheet" href="//unpkg.com/@fortawesome/fontawesome-free/css/regular.css"/>
+        <link rel="stylesheet" href="//unpkg.com/@fortawesome/fontawesome-free/css/solid.css"/>
+    </head>
+
+    <body>
+        <div id="app"></div>
+        <script>
+            window.$docsify = {
+                name: "Check24 Coding Challenge",
+                loadSidebar: true,
+                autoHeader: true,
+                homepage: 'HOME.md',
+                themeColor: '#3F51B5',
+                copyCode: {
+                    buttonText: 'Copy to clipboard',
+                    errorText: 'Error',
+                    successText: 'Copied',
+                },
+            };
+        </script>
+
+        <script src="//unpkg.com/docsify-fontawesome/dist/docsify-fontawesome.min.js"></script>
+        <script src="//cdn.jsdelivr.net/npm/docsify@4"></script>
+        <script src="https://unpkg.com/docsify-copy-code@2"></script>
+        <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-bash.min.js"></script>
+        <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-json.min.js"></script>
+    </body>
+</html>
