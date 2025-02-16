@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Unit\FieldMapping\Application\Service;
 
-use PHPUnit\Framework\TestCase;
+use App\Tests\Unit\TestCase;
 use App\FieldMapping\Application\Service\FieldValidatorService;
 use App\FieldMapping\Domain\ValueObject\{XmlPath, ValidationRule, FieldDefinition};
 use App\FieldMapping\Domain\Exception\FieldValidationException;
@@ -16,8 +16,11 @@ use App\Shared\Infrastructure\Validator\ValidatorFactory;
 class FieldValidatorServiceTest extends TestCase
 {
     private FieldStaticServiceInterface $fieldStaticService;
+
     private ValidatorFactory $validatorFactory;
+
     private FieldValidatorService $validatorService;
+
     private ValidatorInterface $typeValidator;
 
     protected function setUp(): void

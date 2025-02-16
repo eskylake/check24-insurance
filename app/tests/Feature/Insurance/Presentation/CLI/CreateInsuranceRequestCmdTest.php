@@ -18,16 +18,19 @@ class CreateInsuranceRequestCmdTest extends KernelTestCase
         self::bootKernel();
         $application = new Application(self::$kernel);
 
+        // Arrange
         $command = $application->find('insurance:map-input');
         $this->commandTester = new CommandTester($command);
     }
 
     public function testExecuteWithValidInputPathSuccessfully(): void
     {
+        // Act
         $this->commandTester->execute([
             'input-path' => 'stub/input/valid_customer_input.json',
         ]);
 
+        // Assert
         $this->commandTester->assertCommandIsSuccessful();
 
         $output = $this->commandTester->getDisplay();
@@ -36,10 +39,12 @@ class CreateInsuranceRequestCmdTest extends KernelTestCase
 
     public function testExecuteWithEmptyInputPathAndGetError(): void
     {
+        // Act
         $this->commandTester->execute([
             'input-path' => 'stub/input/empty_customer_input.json',
         ]);
 
+        // Assert
         $this->assertEquals(Command::FAILURE, $this->commandTester->getStatusCode());
 
         $output = $this->commandTester->getDisplay();
@@ -48,10 +53,12 @@ class CreateInsuranceRequestCmdTest extends KernelTestCase
 
     public function testExecuteWithInvalidInputPathAndGetError(): void
     {
+        // Act
         $this->commandTester->execute([
             'input-path' => 'stub/input/invalid_customer_input.json',
         ]);
 
+        // Assert
         $this->assertEquals(Command::FAILURE, $this->commandTester->getStatusCode());
 
         $output = $this->commandTester->getDisplay();
@@ -60,10 +67,12 @@ class CreateInsuranceRequestCmdTest extends KernelTestCase
 
     public function testExecuteWithNotExistsInputPathAndGetError(): void
     {
+        // Act
         $this->commandTester->execute([
             'input-path' => 'not_exists_file.json',
         ]);
 
+        // Assert
         $this->assertEquals(Command::FAILURE, $this->commandTester->getStatusCode());
 
         $output = $this->commandTester->getDisplay();

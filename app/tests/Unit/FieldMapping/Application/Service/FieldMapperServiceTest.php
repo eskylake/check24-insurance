@@ -4,11 +4,9 @@ declare(strict_types=1);
 
 namespace App\Tests\Unit\FieldMapping\Application\Service;
 
-use PHPUnit\Framework\TestCase;
-use App\FieldMapping\Domain\ValueObject\XmlPath;
+use App\Tests\Unit\TestCase;
 use App\FieldMapping\Application\Service\FieldMapperService;
 use App\FieldMapping\Domain\DataObject\MappedData;
-use App\FieldMapping\Domain\ValueObject\FieldDefinition;
 use App\FieldMapping\Domain\Exception\FieldMapperException;
 use App\FieldMapping\Domain\Service\FieldStaticServiceInterface;
 
@@ -163,29 +161,5 @@ class FieldMapperServiceTest extends TestCase
             'dummy_status' => 'Active'
         ];
         $this->assertEquals($expected, $result->getMapped());
-    }
-
-    private function createFieldDefinition(
-        string $field,
-        string $mapsTo,
-        bool $required = false,
-        array $validation = [],
-        mixed $static = null,
-        bool $computed = false,
-        ?array $xmlPath = null,
-        ?array $values = null,
-        ?string $description = null,
-    ): FieldDefinition {
-        return new FieldDefinition(
-            field: $field,
-            mapsTo: $mapsTo,
-            required: $required,
-            validation: $validation,
-            static: $static,
-            computed: $computed,
-            xmlPath: XmlPath::fromArray($xmlPath ?: ['sample/dummy']),
-            values: $values,
-            description: $description,
-        );
     }
 }

@@ -7,7 +7,7 @@ namespace App\Shared\Infrastructure\StaticHandler;
 use DateTimeImmutable;
 use App\Shared\Domain\StaticHandler\StaticHandlerInterface;
 
-final class StaticNowHandler implements StaticHandlerInterface
+class StaticNowHandler implements StaticHandlerInterface
 {
     public function handle(?array $constraints = []): string
     {

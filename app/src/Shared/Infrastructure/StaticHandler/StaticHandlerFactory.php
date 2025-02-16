@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Shared\Infrastructure\StaticHandler;
 
-final class StaticHandlerFactory
+class StaticHandlerFactory
 {
     private array $handlers;
 
