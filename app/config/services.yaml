@@ -17,6 +17,7 @@ services:
             App\Shared\Domain\MappingProvider\MappingProviderInterface: '@App\Shared\Infrastructure\MappingProvider\YamlMappingProvider'
             App\Shared\Domain\InputParser\InputParserInterface: '@App\Shared\Infrastructure\InputParser\JsonInputParser'
             App\Shared\Domain\Serializer\XmlSerializerInterface: '@App\Shared\Infrastructure\Serializer\XmlSerializer'
+            App\Shared\Domain\Prettier\PrettierInterface: '@App\Shared\Infrastructure\Prettier\XmlPrettier'
             #FieldMapping
             App\FieldMapping\Domain\Service\FieldMapperServiceInterface: '@App\FieldMapping\Application\Service\FieldMapperService'
             App\FieldMapping\Domain\Service\FieldValidatorServiceInterface: '@App\FieldMapping\Application\Service\FieldValidatorService'
