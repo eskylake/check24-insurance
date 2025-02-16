@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Insurance\Presentation\CLI;
 
+use Throwable;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use App\Shared\Domain\Prettier\PrettierInterface;
@@ -47,13 +48,10 @@ class CreateInsuranceRequestCmd extends Command
 
             $xml = $this->createInsuranceRequestCommand->execute($inputPath ?: $this->params->get('app.acme_customer_input_file'));
 
-            $output->writeln('<info>' . $this->prettier->pretty($xml) . '</info>');
+            $io->writeln('<info>' . $this->prettier->pretty($xml) . '</info>');
 
-            $this->logger->info('Successfully generated ACME request', ['output_file' => ""]);
-            $io->success("XML request generated successfully: yeaah");
             return Command::SUCCESS;
-
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             $this->logger->error('Unexpected error', [
                 'error' => $e->getMessage(),
                 'trace' => $e->getTraceAsString(),
