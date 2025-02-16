@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Shared\Infrastructure\Prettier;
+namespace App\Shared\Application\Service\Prettier;
 
 use DOMDocument;
 use App\Shared\Domain\Prettier\PrettierInterface;

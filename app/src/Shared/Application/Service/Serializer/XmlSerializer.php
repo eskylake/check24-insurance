@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Shared\Infrastructure\Serializer;
+namespace App\Shared\Application\Service\Serializer;
 
 use Symfony\Component\Serializer\SerializerInterface;
 use App\Shared\Domain\Serializer\XmlSerializerInterface;

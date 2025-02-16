@@ -16,8 +16,8 @@ services:
             # Shared
             App\Shared\Domain\MappingProvider\MappingProviderInterface: '@App\Shared\Infrastructure\MappingProvider\YamlMappingProvider'
             App\Shared\Domain\InputParser\InputParserInterface: '@App\Shared\Infrastructure\InputParser\JsonInputParser'
-            App\Shared\Domain\Serializer\XmlSerializerInterface: '@App\Shared\Infrastructure\Serializer\XmlSerializer'
-            App\Shared\Domain\Prettier\PrettierInterface: '@App\Shared\Infrastructure\Prettier\XmlPrettier'
+            App\Shared\Domain\Serializer\XmlSerializerInterface: '@App\Shared\Application\Service\Serializer\XmlSerializer'
+            App\Shared\Domain\Prettier\PrettierInterface: '@App\Shared\Application\Service\Prettier\XmlPrettier'
             #FieldMapping
             App\FieldMapping\Domain\Service\FieldMapperServiceInterface: '@App\FieldMapping\Application\Service\FieldMapperService'
             App\FieldMapping\Domain\Service\FieldValidatorServiceInterface: '@App\FieldMapping\Application\Service\FieldValidatorService'
@@ -47,11 +47,3 @@ services:
         resource: '../src/Insurance/Presentation/CLI/'
         tags: [ 'console.command' ]
 
-    App\FieldMapping\:
-        resource: '../src/FieldMapping/'
-        exclude:
-            - '../src/FieldMapping/Domain/Exception/'
-            - '../src/FieldMapping/Domain/ValueObject/'
-
-    # add more service definitions when explicit configuration is needed
-    # please note that last definitions always *replace* previous ones

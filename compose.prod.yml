@@ -4,8 +4,12 @@ services:
     build:
       context: .
       dockerfile: deployment/docker/php/Dockerfile
-    volumes:
-      - ./app:/var/www/html
+      target: prod
+    restart: unless-stopped
+    environment:
+      - APP_ENV=prod
+    networks:
+      - check24-backend
 
 networks:
-  symfony:
+  check24-backend:

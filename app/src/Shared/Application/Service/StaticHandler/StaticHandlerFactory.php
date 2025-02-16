@@ -2,7 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Shared\Infrastructure\StaticHandler;
+namespace App\Shared\Application\Service\StaticHandler;
+
+use App\Shared\Infrastructure\StaticHandler\StaticNowHandler;
 
 class StaticHandlerFactory
 {

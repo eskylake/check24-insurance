@@ -6,7 +6,7 @@ namespace App\Tests\Unit\FieldMapping\Application\Service;
 
 use App\Tests\Unit\TestCase;
 use App\FieldMapping\Application\Service\FieldStaticService;
-use App\Shared\Infrastructure\StaticHandler\StaticHandlerFactory;
+use App\Shared\Application\Service\StaticHandler\StaticHandlerFactory;
 
 class FieldStaticServiceTest extends TestCase
 {

@@ -6,7 +6,7 @@ namespace App\FieldMapping\Application\Service;
 
 use App\FieldMapping\Domain\ValueObject\FieldDefinition;
 use App\FieldMapping\Domain\Service\FieldStaticServiceInterface;
-use App\Shared\Infrastructure\StaticHandler\StaticHandlerFactory;
+use App\Shared\Application\Service\StaticHandler\StaticHandlerFactory;
 
 /**
  * Service for handling static field values with specialized formatting.
