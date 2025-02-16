@@ -85,3 +85,4 @@ field_definitions:
       type: "date"
       format: "Y-m-d"
       output_format: "Y-m-d\\T00:00:00"
+      

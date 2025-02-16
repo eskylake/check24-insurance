@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\FieldMapping\Application\Service;
 
 use DateTime;
+use App\FieldMapping\Domain\ValueObject\XmlPath;
 use App\FieldMapping\Domain\Exception\FieldValidationException;
 use App\FieldMapping\Domain\Aggregate\FieldDefinition;
 use App\FieldMapping\Domain\Service\FieldStaticServiceInterface;
@@ -22,6 +23,10 @@ class FieldValidatorService implements FieldValidatorServiceInterface
         $fieldDefs = [];
 
         foreach ($fieldDefinitions as $fieldName => $definition) {
+            if (!isset($definition['xml_path'])) {
+                continue;
+            }
+
             $fieldDef = new FieldDefinition(
                 $definition['field'],
                 $definition['maps_to'],
@@ -30,7 +35,7 @@ class FieldValidatorService implements FieldValidatorServiceInterface
                 $definition['values'] ?? null,
                 $definition['validation'] ?? [],
                 $definition['static'] ?? null,
-                $definition['xml_path'],
+                XmlPath::fromArray($definition['xml_path']),
             );
 
             if (!isset($data[$fieldName]) && $fieldDef->isRequired()) {

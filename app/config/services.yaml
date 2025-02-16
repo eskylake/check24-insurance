@@ -21,6 +21,7 @@ services:
             App\FieldMapping\Domain\Service\FieldValidatorServiceInterface: '@App\FieldMapping\Application\Service\FieldValidatorService'
             App\FieldMapping\Domain\Service\FieldStaticServiceInterface: '@App\FieldMapping\Application\Service\FieldStaticService'
             App\FieldMapping\Domain\Service\FieldMappingServiceInterface: '@App\FieldMapping\Application\Service\FieldMappingService'
+            App\FieldMapping\Domain\Service\XmlStructureBuilderServiceInterface: '@App\FieldMapping\Application\Service\XmlStructureBuilderService'
             # Insurance
             App\Insurance\Domain\Command\CreateInsuranceRequestCommandInterface: '@App\Insurance\Application\Command\CreateInsuranceRequestCommand'
             App\Insurance\Domain\UseCase\MapInputToXMLRequestUseCaseInterface: '@App\Insurance\Application\UseCase\MapInputToXMLRequestUseCase'
