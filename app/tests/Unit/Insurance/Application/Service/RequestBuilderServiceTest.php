@@ -8,7 +8,6 @@ use RuntimeException;
 use App\Tests\Unit\TestCase;
 use App\Insurance\Application\Service\RequestBuilderService;
 use App\Insurance\Domain\ValueObject\Mapping;
-use App\Insurance\Domain\Exception\FieldDefinitionException;
 use App\Shared\Domain\Serializer\XmlSerializerInterface;
 
 class RequestBuilderServiceTest extends TestCase
