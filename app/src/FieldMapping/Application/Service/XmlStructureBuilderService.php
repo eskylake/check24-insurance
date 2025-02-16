@@ -20,10 +20,8 @@ use App\FieldMapping\Domain\Service\XmlStructureBuilderServiceInterface;
  * it creates: ['Root' => ['Parent' => ['Child' => ['field_name' => 'data']]]]
  *
  * @implements XmlStructureBuilderServiceInterface
- *
- * @final
  */
-final class XmlStructureBuilderService implements XmlStructureBuilderServiceInterface
+class XmlStructureBuilderService implements XmlStructureBuilderServiceInterface
 {
     /**
      * Builds a nested array structure based on XML paths in field definitions.
