@@ -13,8 +13,26 @@ use App\FieldMapping\Domain\Exception\FieldValidationException;
 use App\FieldMapping\Domain\Service\FieldStaticServiceInterface;
 use App\FieldMapping\Domain\Service\FieldValidatorServiceInterface;
 
+/**
+ * Service responsible for validating field definitions and their corresponding data.
+ *
+ * This service performs validation of field data against their definitions, including:
+ * - Required field validation
+ * - Type-based validation using validation rules
+ * - Value mapping validation
+ * - Static value handling
+ * - Computed field validation
+ *
+ * @implements FieldValidatorServiceInterface
+ */
 class FieldValidatorService implements FieldValidatorServiceInterface
 {
+    /**
+     * Constructs a new FieldValidatorService instance.
+     *
+     * @param FieldStaticServiceInterface $fieldStaticService Service for handling static field values
+     * @param ValidatorFactory            $validatorFactory    Factory for creating field validators
+     */
     public function __construct(
         private FieldStaticServiceInterface $fieldStaticService,
         private ValidatorFactory            $validatorFactory,
@@ -23,9 +41,31 @@ class FieldValidatorService implements FieldValidatorServiceInterface
     }
 
     /**
-     * @param array $data
-     * @param array $fieldDefinitions
-     * @return array<FieldDefinition>
+     * Validates field data against their definitions and returns valid field definitions.
+     *
+     *
+     * @param array<string, mixed> $data             Input data to validate, where keys are field names
+     *                                               and values are the corresponding field values
+     * @param array<string, array> $fieldDefinitions Array of field definition configurations where keys
+     *                                               are field names and values are definition arrays
+     *
+     * @throws FieldValidationException When validation errors occur, containing an array of
+     *                                 error messages keyed by field name
+     *
+     * @return array<FieldDefinition> Array of validated field definitions
+     *
+     * @example
+     * Input:
+     *   $data = ['code' => 'ABC']
+     *   $fieldDefinitions = [
+     *     'code' => [
+     *       'field' => 'code',
+     *       'maps_to' => 'system_code',
+     *       'required' => true,
+     *       'validation' => ['type' => 'string', 'constraints' => ['length' => 3]],
+     *       'xml_path' => ['path' => 'Data/Code']
+     *     ]
+     *   ]
      */
     public function validate(array $data, array $fieldDefinitions): array
     {
