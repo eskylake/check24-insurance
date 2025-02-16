@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace App\FieldMapping\Application\Service;
 
-use App\FieldMapping\Domain\ValueObject\ProcessedField;
+use App\FieldMapping\Domain\DataObject\ProcessedField;
+use App\FieldMapping\Domain\Exception\FieldDefinitionException;
 use App\FieldMapping\Domain\Service\{FieldMapperServiceInterface,
     FieldMappingServiceInterface,
     FieldValidatorServiceInterface};
@@ -20,7 +21,7 @@ class FieldMappingService implements FieldMappingServiceInterface
 
     public function processFields(array $inputs, array $mappings): ProcessedField
     {
-        $mappingFieldDefs = $mappings['field_definitions'];
+        $mappingFieldDefs = $mappings['field_definitions'] ?? throw new FieldDefinitionException();
         $fieldDefs = $this->validator->validate($inputs, $mappingFieldDefs);
 
         $mappedData = $this->mapper->map($inputs, $fieldDefs);

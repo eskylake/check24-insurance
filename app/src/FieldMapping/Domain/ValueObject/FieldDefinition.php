@@ -2,9 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\FieldMapping\Domain\Aggregate;
-
-use App\FieldMapping\Domain\ValueObject\XmlPath;
+namespace App\FieldMapping\Domain\ValueObject;
 
 final class FieldDefinition
 {
@@ -14,34 +12,38 @@ final class FieldDefinition
 
     private bool $required;
 
-    private ?string $description;
-
-    private ?array $values;
-
     private array $validation;
 
     private mixed $static;
 
+    private bool $computed;
+
     private XmlPath $xmlPath;
+
+    private ?string $description;
+
+    private ?array $values;
 
     public function __construct(
         string $field,
         string $mapsTo,
         bool $required,
-        ?string $description,
-        ?array $values,
         array $validation,
         mixed $static,
+        bool $computed,
         XmlPath $xmlPath,
+        ?array $values,
+        ?string $description,
     ) {
         $this->field = $field;
         $this->mapsTo = $mapsTo;
         $this->required = $required;
-        $this->description = $description;
-        $this->values = $values;
         $this->validation = $validation;
         $this->static = $static;
+        $this->computed = $computed;
         $this->xmlPath = $xmlPath;
+        $this->values = $values;
+        $this->description = $description;
     }
 
     public function getField(): string
@@ -77,6 +79,11 @@ final class FieldDefinition
     public function getStatic(): mixed
     {
         return $this->static;
+    }
+
+    public function isComputed(): bool
+    {
+        return $this->computed;
     }
 
     public function getXMLPath(): XmlPath

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\FieldMapping\Domain\Service;
 
-use App\FieldMapping\Domain\ValueObject\ProcessedField;
+use App\FieldMapping\Domain\DataObject\ProcessedField;
 
 interface FieldMappingServiceInterface
 {

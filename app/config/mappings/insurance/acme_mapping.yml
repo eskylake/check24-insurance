@@ -18,6 +18,8 @@ description: |
   - Dates are automatically formatted to provider's format
   - Numbers are sent as-is unless specified otherwise
 
+xml_root: "TarificacionThirdPartyRequest"
+
 field_definitions:
   holder:
     field: "holder"
@@ -85,4 +87,17 @@ field_definitions:
       type: "date"
       format: "Y-m-d"
       output_format: "Y-m-d\\T00:00:00"
-      
+
+  additionalDriversCount:
+    field: "occasionalDriver"
+    maps_to: "NroCondOca"
+    xml_path:
+      - "Datos/DatosGenerales"
+    computed: true
+    description: "Number of additional drivers"
+    values:
+      NO: "S"
+      SI: "N"
+    validation:
+      type: "string"
+      allowed_values: ["SI", "NO"]

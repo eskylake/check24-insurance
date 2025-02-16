@@ -6,8 +6,8 @@ namespace App\FieldMapping\Application\Service;
 
 use DateTime;
 use App\FieldMapping\Domain\ValueObject\XmlPath;
+use App\FieldMapping\Domain\ValueObject\FieldDefinition;
 use App\FieldMapping\Domain\Exception\FieldValidationException;
-use App\FieldMapping\Domain\Aggregate\FieldDefinition;
 use App\FieldMapping\Domain\Service\FieldStaticServiceInterface;
 use App\FieldMapping\Domain\Service\FieldValidatorServiceInterface;
 
@@ -17,6 +17,11 @@ class FieldValidatorService implements FieldValidatorServiceInterface
     {
     }
 
+    /**
+     * @param array $data
+     * @param array $fieldDefinitions
+     * @return array<FieldDefinition>
+     */
     public function validate(array $data, array $fieldDefinitions): array
     {
         $errors = [];
@@ -28,14 +33,15 @@ class FieldValidatorService implements FieldValidatorServiceInterface
             }
 
             $fieldDef = new FieldDefinition(
-                $definition['field'],
-                $definition['maps_to'],
-                $definition['required'] ?? false,
-                $definition['description'] ?? null,
-                $definition['values'] ?? null,
-                $definition['validation'] ?? [],
-                $definition['static'] ?? null,
-                XmlPath::fromArray($definition['xml_path']),
+                field: $definition['field'],
+                mapsTo: $definition['maps_to'],
+                required: $definition['required'] ?? false,
+                validation: $definition['validation'] ?? [],
+                static: $definition['static'] ?? null,
+                computed: $definition['computed'] ?? false,
+                xmlPath: XmlPath::fromArray($definition['xml_path']),
+                values: $definition['values'] ?? null,
+                description: $definition['description'] ?? null,
             );
 
             if (!isset($data[$fieldName]) && $fieldDef->isRequired()) {
@@ -43,11 +49,16 @@ class FieldValidatorService implements FieldValidatorServiceInterface
                 continue;
             }
 
-            if (!isset($data[$fieldName]) && !$fieldDef->getStatic()) {
+            if (!isset($data[$fieldName]) && !$fieldDef->getStatic() && !$fieldDef->isComputed()) {
                 continue;
             }
 
-            $value = $data[$fieldName] ?? $this->fieldStaticService->handleInput($fieldDef);
+            if ($fieldDef->isComputed()) {
+                $value = $data[$fieldDef->getField()];
+            } else {
+                $value = $data[$fieldName] ?? $this->fieldStaticService->handleInput($fieldDef);
+            }
+
             $validation = $fieldDef->getValidation();
 
             if (isset($validation['type'])) {
@@ -86,7 +97,8 @@ class FieldValidatorService implements FieldValidatorServiceInterface
                 }
             }
 
-            if ($fieldDef->getValues() !== null) {
+
+            if ($fieldDef->getValues() !== null && !$fieldDef->isComputed()) {
                 if (!array_key_exists($value, $fieldDef->getValues())) {
                     $errors[$fieldName][] = "Invalid mapping value";
                 }

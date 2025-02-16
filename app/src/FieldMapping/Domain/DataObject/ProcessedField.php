@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace App\FieldMapping\Domain\ValueObject;
+namespace App\FieldMapping\Domain\DataObject;
 
 final class ProcessedField
 {
     private array $fieldDefs;
 
-    private array $mappedData;
+    private MappedData $mappedData;
 
     public function __construct(
         array $fieldDefs,
-        array $mappedData,
+        MappedData $mappedData,
     )
     {
         $this->fieldDefs = $fieldDefs;
@@ -24,7 +24,7 @@ final class ProcessedField
         return $this->fieldDefs;
     }
 
-    public function getMappedData(): array
+    public function getMappedData(): MappedData
     {
         return $this->mappedData;
     }

@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace App\FieldMapping\Application\Service;
 
+use App\FieldMapping\Domain\DataObject\MappedData;
+use App\FieldMapping\Domain\ValueObject\FieldDefinition;
 use App\FieldMapping\Domain\Exception\FieldMapperException;
 use App\FieldMapping\Domain\Service\FieldMapperServiceInterface;
-use App\FieldMapping\Domain\Aggregate\FieldDefinition;
 use App\FieldMapping\Domain\Service\FieldStaticServiceInterface;
 
 class FieldMapperService implements FieldMapperServiceInterface
@@ -15,13 +16,19 @@ class FieldMapperService implements FieldMapperServiceInterface
     {
     }
 
-    public function map(array $data, array $fieldDefinitions): array
+    public function map(array $data, array $fieldDefinitions): MappedData
     {
         $mapped = [];
+        $computed = [];
 
         foreach ($fieldDefinitions as $definition) {
             if (!$definition instanceof FieldDefinition) {
                 throw new FieldMapperException();
+            }
+
+            if ($definition->isComputed()) {
+                $computed[] = $definition;
+                continue;
             }
 
             if (!isset($data[$definition->getField()]) && !$definition->getStatic()) {
@@ -37,6 +44,6 @@ class FieldMapperService implements FieldMapperServiceInterface
             $mapped[$definition->getMapsTo()] = $value;
         }
 
-        return $mapped;
+        return new MappedData($mapped, $computed);
     }
 }

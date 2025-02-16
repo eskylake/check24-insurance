@@ -24,6 +24,7 @@ services:
             App\FieldMapping\Domain\Service\XmlStructureBuilderServiceInterface: '@App\FieldMapping\Application\Service\XmlStructureBuilderService'
             # Insurance
             App\Insurance\Domain\Command\CreateInsuranceRequestCommandInterface: '@App\Insurance\Application\Command\CreateInsuranceRequestCommand'
+            App\Insurance\Domain\Service\ComputedFieldServiceInterface: '@App\Insurance\Application\Service\ComputedFieldService'
             App\Insurance\Domain\UseCase\MapInputToXMLRequestUseCaseInterface: '@App\Insurance\Application\UseCase\MapInputToXMLRequestUseCase'
 
     serializer.encoder.xml:

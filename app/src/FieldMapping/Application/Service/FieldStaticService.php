@@ -4,28 +4,28 @@ declare(strict_types=1);
 
 namespace App\FieldMapping\Application\Service;
 
-use DateTime;
-use App\FieldMapping\Domain\Aggregate\FieldDefinition;
+use App\FieldMapping\Domain\ValueObject\FieldDefinition;
 use App\FieldMapping\Domain\Service\FieldStaticServiceInterface;
+use App\Shared\Infrastructure\StaticHandler\StaticHandlerFactory;
 
 class FieldStaticService implements FieldStaticServiceInterface
 {
+    public function __construct(private StaticHandlerFactory $staticHandlerFactory)
+    {
+    }
+
     public function handleInput(FieldDefinition $fieldDef): mixed
     {
-        $static = $fieldDef->getStatic();
+        $staticValue = $fieldDef->getStatic();
+        $handler = $this->staticHandlerFactory->getHandler($staticValue);
 
-        return match ($static) {
-            'now' => (new DateTime())->format($fieldDef->getValidation()['format'] ?? 'Y-m-d'),
-            default => $static,
-        };
+        return $handler?->handle(['format' => $fieldDef->getValidation()['format']]) ?: $staticValue;
     }
     public function handleOutput(FieldDefinition $fieldDef): mixed
     {
-        $static = $fieldDef->getStatic();
+        $staticValue = $fieldDef->getStatic();
+        $handler = $this->staticHandlerFactory->getHandler($staticValue);
 
-        return match ($static) {
-            'now' => (new DateTime())->format($fieldDef->getValidation()['output_format'] ?? 'Y-m-d\\T00:00:00'),
-            default => $static,
-        };
+        return $handler?->handle(['format' => $fieldDef->getValidation()['output_format']]) ?: $staticValue;
     }
 }
