@@ -21,11 +21,6 @@ final class XmlPath
         return $this->paths;
     }
 
-    public static function fromString(string $path): self
-    {
-        return new self([$path]);
-    }
-
     public static function fromArray(array $paths): self
     {
         return new self($paths);

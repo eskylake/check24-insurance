@@ -4,16 +4,21 @@ declare(strict_types=1);
 
 namespace App\FieldMapping\Application\Service;
 
-use DateTime;
 use App\FieldMapping\Domain\ValueObject\XmlPath;
+use App\Shared\Domain\DataObject\ValidationResult;
+use App\FieldMapping\Domain\ValueObject\ValidationRule;
 use App\FieldMapping\Domain\ValueObject\FieldDefinition;
+use App\Shared\Infrastructure\Validator\ValidatorFactory;
 use App\FieldMapping\Domain\Exception\FieldValidationException;
 use App\FieldMapping\Domain\Service\FieldStaticServiceInterface;
 use App\FieldMapping\Domain\Service\FieldValidatorServiceInterface;
 
 class FieldValidatorService implements FieldValidatorServiceInterface
 {
-    public function __construct(private FieldStaticServiceInterface $fieldStaticService)
+    public function __construct(
+        private FieldStaticServiceInterface $fieldStaticService,
+        private ValidatorFactory            $validatorFactory,
+    )
     {
     }
 
@@ -32,76 +37,12 @@ class FieldValidatorService implements FieldValidatorServiceInterface
                 continue;
             }
 
-            $fieldDef = new FieldDefinition(
-                field: $definition['field'],
-                mapsTo: $definition['maps_to'],
-                required: $definition['required'] ?? false,
-                validation: $definition['validation'] ?? [],
-                static: $definition['static'] ?? null,
-                computed: $definition['computed'] ?? false,
-                xmlPath: XmlPath::fromArray($definition['xml_path']),
-                values: $definition['values'] ?? null,
-                description: $definition['description'] ?? null,
-            );
+            $fieldDef = $this->createFieldDefinition($definition);
+            $validationResult = $this->validateField($fieldName, $data, $fieldDef);
 
-            if (!isset($data[$fieldName]) && $fieldDef->isRequired()) {
-                $errors[$fieldName][] = "Field is required";
+            if (!$validationResult->isValid()) {
+                $errors[$fieldName] = $validationResult->getErrors();
                 continue;
-            }
-
-            if (!isset($data[$fieldName]) && !$fieldDef->getStatic() && !$fieldDef->isComputed()) {
-                continue;
-            }
-
-            if ($fieldDef->isComputed()) {
-                $value = $data[$fieldDef->getField()];
-            } else {
-                $value = $data[$fieldName] ?? $this->fieldStaticService->handleInput($fieldDef);
-            }
-
-            $validation = $fieldDef->getValidation();
-
-            if (isset($validation['type'])) {
-                switch ($validation['type']) {
-                    case 'string':
-                        if (!is_string($value)) {
-                            $errors[$fieldName][] = "Must be a string";
-                        }
-                        if (isset($validation['allowed_values']) &&
-                            !in_array($value, $validation['allowed_values'])) {
-                            $errors[$fieldName][] = "Invalid value";
-                        }
-                        break;
-
-                    case 'integer':
-                        if (!is_numeric($value)) {
-                            $errors[$fieldName][] = "Must be a number";
-                        }
-                        if (isset($validation['min']) && $value < $validation['min']) {
-                            $errors[$fieldName][] = "Value must be >= {$validation['min']}";
-                        }
-                        if (isset($validation['max']) && $value > $validation['max']) {
-                            $errors[$fieldName][] = "Value must be <= {$validation['max']}";
-                        }
-                        break;
-
-                    case 'date':
-                        if (!empty($value)) {
-                            $format = $validation['format'] ?? 'Y-m-d';
-                            $date = $value instanceof DateTime ? $value : DateTime::createFromFormat($format, $value);
-                            if (!$date || $date->format($format) !== $value) {
-                                $errors[$fieldName][] = "Invalid date format";
-                            }
-                        }
-                        break;
-                }
-            }
-
-
-            if ($fieldDef->getValues() !== null && !$fieldDef->isComputed()) {
-                if (!array_key_exists($value, $fieldDef->getValues())) {
-                    $errors[$fieldName][] = "Invalid mapping value";
-                }
             }
 
             $fieldDefs[] = $fieldDef;
@@ -112,5 +53,54 @@ class FieldValidatorService implements FieldValidatorServiceInterface
         }
 
         return $fieldDefs;
+    }
+
+    private function createFieldDefinition(array $definition): FieldDefinition
+    {
+        return new FieldDefinition(
+            field: $definition['field'],
+            mapsTo: $definition['maps_to'],
+            required: $definition['required'] ?? false,
+            validation: $definition['validation'] ?? [],
+            static: $definition['static'] ?? null,
+            computed: $definition['computed'] ?? false,
+            xmlPath: XmlPath::fromArray($definition['xml_path']),
+            values: $definition['values'] ?? null,
+            description: $definition['description'] ?? null,
+        );
+    }
+
+    private function validateField(string $fieldName, array $data, FieldDefinition $fieldDef): ValidationResult
+    {
+        if (!isset($data[$fieldName]) && $fieldDef->isRequired()) {
+            return ValidationResult::invalid(['Field is required']);
+        }
+
+        if (!isset($data[$fieldName]) && !$fieldDef->getStatic() && !$fieldDef->isComputed()) {
+            return ValidationResult::valid();
+        }
+
+        $value = $fieldDef->isComputed() ?
+            $data[$fieldDef->getField()] :
+            $data[$fieldName] ?? $this->fieldStaticService->handleInput($fieldDef);
+        $validation = $fieldDef->getValidation();
+
+        if (isset($validation['type'])) {
+            $validationRule = ValidationRule::fromArray($validation);
+            $validator = $this->validatorFactory->getValidator($validationRule->getType());
+            $result = $validator->validate($value, $validationRule->getConstraints());
+
+            if (!$result->isValid()) {
+                return $result;
+            }
+        }
+
+        if ($fieldDef->getValues() !== null && !$fieldDef->isComputed()) {
+            if (!array_key_exists($value, $fieldDef->getValues())) {
+                return ValidationResult::invalid([sprintf('Invalid mapping value for [%s]', $fieldName)]);
+            }
+        }
+
+        return ValidationResult::valid();
     }
 }

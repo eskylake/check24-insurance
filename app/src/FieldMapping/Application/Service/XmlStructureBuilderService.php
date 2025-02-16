@@ -4,16 +4,22 @@ declare(strict_types=1);
 
 namespace App\FieldMapping\Application\Service;
 
+use App\FieldMapping\Domain\ValueObject\FieldDefinition;
+use App\FieldMapping\Domain\Exception\FieldMapperException;
 use App\FieldMapping\Domain\Service\XmlStructureBuilderServiceInterface;
 
 final class XmlStructureBuilderService implements XmlStructureBuilderServiceInterface
 {
-    public function buildNestedArray(array $mappedData, array $fieldDefs): array
+    public function buildNestedArray(array $mappedData, array $fieldDefinitions): array
     {
         $result = [];
 
-        foreach ($fieldDefs as $field) {
-            foreach ($field->getXmlPath()->getPaths() as $path) {
+        foreach ($fieldDefinitions as $definition) {
+            if (!$definition instanceof FieldDefinition) {
+                throw new FieldMapperException();
+            }
+
+            foreach ($definition->getXmlPath()->getPaths() as $path) {
                 $current = &$result;
                 $segments = explode('/', $path);
 
@@ -24,7 +30,7 @@ final class XmlStructureBuilderService implements XmlStructureBuilderServiceInte
                     $current = &$current[$segment];
                 }
 
-                $current[$field->getMapsTo()] = $mappedData[$field->getMapsTo()];
+                $current[$definition->getMapsTo()] = $mappedData[$definition->getMapsTo()];
             }
         }
 
