@@ -1,3 +1,109 @@
+# Field Mapping Configuration Contract
+
+## Overview
+
+This documentation describes the field mapping configuration system that translates data between customer input and ACME's system. The configuration acts as a translation layer, ensuring proper data transformation and validation between the two systems.
+
+## Configuration Structure
+
+The configuration is defined in YAML format with a root element `TarificacionThirdPartyRequest` and contains detailed field definitions for data transformation.
+
+## Field Types
+
+The system supports four distinct types of fields, each serving different purposes in the data transformation process:
+
+| Field Type | Description | Example | Input → Output |
+|------------|-------------|---------|----------------|
+| Regular Fields | Standard fields where values pass through with minimal transformation | `prevInsurance_years` | `5` → `5` |
+| Value Conversion Fields | Fields that transform input values to different output values | `prevInsurance_exists` | `"SI"` → `"N"` |
+| Static Fields | Fields that always output the same value regardless of input | `current_date` | Any → `"ALWAYS_THIS_VALUE"` |
+| Computed Fields | Fields automatically calculated by the system | `additionalDriversCount` | System calculated |
+
+## XML Path Structure
+
+The `xml_path` property defines the location where data will be stored in ACME's system. It follows a hierarchical structure:
+
+```
+Datos/
+├── DatosGenerales/
+│   └── [Field Value]
+└── DatosAseguradora/
+└── [Field Value]
+```
+
+Some fields may be stored in multiple locations, represented by multiple paths in the configuration.
+
+## Field Definition Properties
+
+Each field in the configuration includes the following properties:
+
+| Property | Description | Required |
+|----------|-------------|-----------|
+| `field` | Internal field name | Yes |
+| `maps_to` | Corresponding field name in ACME's system | Yes |
+| `description` | Purpose and usage of the field | Yes |
+| `required` | Whether the field must have a value | Yes |
+| `values` | Value conversion mapping (if applicable) | No |
+| `validation` | Data validation rules | Yes |
+| `xml_path` | Storage location(s) in ACME's system | Yes |
+
+## Validation Rules
+
+The validation property can include:
+
+- Data type (`string`, `integer`, `date`)
+- Allowed values for enumerated fields
+- Minimum and maximum values for numeric fields
+- Date format specifications
+
+## Data Types and Validation Rules
+
+The system (currently but can be added in the future) supports three primary data types with specific validation rules and formats:
+
+### 1. String Type
+String fields accept text values and can have specific validation rules:
+
+```yaml
+validation:
+  type: "string"
+  allowed_values: ["SI", "NO"]  # Restricts input to specific values
+```
+Examples:
+- Valid: "SI", "NO"
+- Invalid: "Yes", "S", "true"
+
+### 2. Integer Type
+Integer fields accept whole numbers and can have range restrictions:
+```yaml
+validation:
+  type: "integer"
+  min: 0
+  max: 99
+```
+Examples:
+- Valid: 5, 42, 0, 99
+- Invalid: -1, 100
+
+### 3. Date Type
+Date fields support various formats and can be configured for specific input and output formatting:
+```yaml
+validation:
+  type: "date"
+  format: "Y-m-d"          # Input format
+  output_format: "Y-m-d\\T00:00:00"  # Output format
+```
+
+Date Format Patterns:
+```
+Y: Four-digit year (2024)
+m: Month with leading zeros (01-12)
+d: Day with leading zeros (01-31)
+```
+
+## Contract
+You can find and modify the contract in `app/config/mappings/insurance/acme_mapping.yml`:
+
+```yaml
 description: |
   Field Mapping Configuration Guide
   --------------------------------
@@ -185,3 +291,5 @@ field_definitions:
     validation:
       type: "string"
       allowed_values: ["SI", "NO"]
+
+```
