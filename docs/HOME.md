@@ -73,7 +73,7 @@ provider.
 │   │   │   ├── Infrastructure
 │   │   │   └── Presentation
 │   │   │       └── CLI
-│   │   │           └── CreateInsuranceRequestCmd.php #  --- Comman line starts from here ---
+│   │   │           └── CreateInsuranceRequestCmd.php #  --- Command line starts from here ---
 │   │   └── Shared # Shared services between domains
 │   │       ├── Application
 │   │       │   └── Service

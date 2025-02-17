@@ -5,7 +5,7 @@ You can easily run via docker compose.
 
 Create `.env` if not any:
 ```sh
-cp .env.dev .env
+cp app/.env.dev app/.env
 ```
 
 Run services:
